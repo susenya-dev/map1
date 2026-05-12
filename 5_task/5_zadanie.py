@@ -16,30 +16,62 @@ class Example(QMainWindow):
 
         uic.loadUi("untitled.ui", self)
         self.theme = 'light'
+
         self.dark.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.light.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.search.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.lineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
 
         self.z = 15
         self.ll = [37.530887, 55.703118]
         self.delt = 0.001
+        self.marker = None
+
         self.getImage()
 
         self.light.clicked.connect(lambda:self.theme_func('light'))
         self.dark.clicked.connect(lambda:self.theme_func('dark'))
 
+        self.search.clicked.connect(lambda:self.search_func())
+
     def theme_func(self, n: str):
         self.theme = n
         self.getImage()
 
-    def search(self):
-        ...
+    def search_func(self):
+        try:
+            server_address = 'http://geocode-maps.yandex.ru/1.x/?'
+            api_key = '8013b162-6b42-4997-9691-77b7074026e0'
+            geocode = self.lineEdit.text()
+            geocoder_request = f'{server_address}apikey={api_key}&geocode={geocode}&format=json'
+
+            response = requests.get(geocoder_request)
+            json_response = response.json()
+            toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+            toponym_coodrinates = toponym["Point"]["pos"]
+
+            coords = toponym_coodrinates.split()
+            self.ll[0] = float(coords[0])
+            self.ll[1] = float(coords[1])
+            self.marker = [float(coords[0]), float(coords[1])]
+
+            self.lineEdit.clearFocus()
+            self.setFocus()
+
+            self.getImage()
+
+        except Exception as e:
+            print(e)
 
     def getImage(self):
         param = {"apikey": 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13',
                  "ll": f"{self.ll[0]},{self.ll[1]}",
                  "z": self.z,
-                 "theme": self.theme}
-
+                 "theme": self.theme
+                 }
+        if self.marker:
+            param["pt"] = f"{self.marker[0]},{self.marker[1]},pm2dgl"
         server_address = 'https://static-maps.yandex.ru/v1?'
         response = requests.get(server_address, params=param)
 
@@ -56,7 +88,9 @@ class Example(QMainWindow):
         self.update()
 
     def keyPressEvent(self, event):
-
+        if self.lineEdit.hasFocus():
+            super().keyPressEvent(event)
+            return
         d = {"0": 8, "1": 6, "2": 5, "3": 4, "4": 3, "5": 0.6, "6": 0.5, "7": 0.4, "8": 0.3, "9": 0.2, "10": 0.1,
              "11": 0.04,
              "12": 0.03, "13": 0.02, "14": 0.002, "15": 0.001, "16": 0.0001, "17": 0.0001, "18": 0.0001, "19": 0.0001,
