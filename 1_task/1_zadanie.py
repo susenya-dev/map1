@@ -40,17 +40,6 @@ class Example(QMainWindow):
 
         self.update()
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key.Key_Left:
-            self.ll[0] -= 0.002
-        if event.key() == Qt.Key.Key_Right:
-            self.ll[0] += 0.002
-        if event.key() == Qt.Key.Key_Up:
-            self.ll[1] += 0.002
-        if event.key() == Qt.Key.Key_Down:
-            self.ll[1] -= 0.002
-        self.getImage()
-
     def closeEvent(self, event):
         os.remove(self.map_file)
 
