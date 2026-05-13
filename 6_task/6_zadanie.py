@@ -98,19 +98,19 @@ class Example(QMainWindow):
 
         if event.key() == Qt.Key.Key_PageUp and self.z <= 21:
             self.z += 1
-            self.marker = None
+
         if event.key() == Qt.Key.Key_PageDown and self.z > 0:
             self.z -= 1
-            self.marker = None
+
         if event.key() == Qt.Key.Key_Left:
             self.ll[0] -= d[f'{self.z}']
-            self.marker = None
+
         if event.key() == Qt.Key.Key_Right:
             self.ll[0] += d[f'{self.z}']
-            self.marker = None
+
         if event.key() == Qt.Key.Key_Up:
             self.ll[1] += d[f'{self.z}']
-            self.marker = None
+
         if event.key() == Qt.Key.Key_Down:
             self.ll[1] -= d[f'{self.z}']
         self.getImage()
