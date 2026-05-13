@@ -45,6 +45,8 @@ class Example(QMainWindow):
 
     def clear_func(self):
         self.lineEdit.clear()
+        self.label.clear()
+        self.label_2.clear()
         self.marker = None
         self.lineEdit.clearFocus()
         self.setFocus()
