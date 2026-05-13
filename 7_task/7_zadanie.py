@@ -19,6 +19,7 @@ class Example(QMainWindow):
 
         self.dark.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.light.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.clear.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.search.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.lineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
