@@ -16,14 +16,13 @@ class Example(QMainWindow):
 
         uic.loadUi("untitled.ui", self)
         self.theme = 'light'
-        self.index_s = 1
 
         self.dark.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.light.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.clear.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.search.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.lineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        self.pushButton.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.checkBox.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.z = 15
         self.ll = [37.530887, 55.703118]
@@ -38,10 +37,6 @@ class Example(QMainWindow):
         self.search.clicked.connect(lambda:self.search_func())
         self.clear.clicked.connect(lambda:self.clear_func())
 
-        self.pushButton.clicked.connect(self.index)
-
-    def index(self):
-        self.index_s += 1
 
     def clear_func(self):
         self.lineEdit.clear()
@@ -73,7 +68,7 @@ class Example(QMainWindow):
             self.ll[1] = float(coords[1])
             self.marker = [float(coords[0]), float(coords[1])]
 
-            if self.index_s % 2 == 0:
+            if self.checkBox.isChecked():
                 try:
                     self.label_2.setText(toponym["metaDataProperty"]["GeocoderMetaData"]["Address"]['postal_code'])
                 except Exception:
